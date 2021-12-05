@@ -1,0 +1,1 @@
+CPU_INTERVAL = 1

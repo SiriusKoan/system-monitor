@@ -1,1 +1,1 @@
-from . import cpu, diskio, memory, networkio
+from . import cpu, diskio, memory, networkio, sysinfo

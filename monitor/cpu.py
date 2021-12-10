@@ -1,7 +1,7 @@
 from time import sleep
 import psutil
-
 from monitor.config import CPU_INTERVAL
+from utils import add_timestamp
 
 cpu_usage_total = []
 cpu_usage_per = []

@@ -1,8 +1,22 @@
+from time import sleep
 import psutil
+from psutil._common import bytes2human
+from monitor.config import BATTERY_INTERVAL
+from utils import add_timestamp
+
+battery_usage = []
 
 
 def get_cpu_count():
     return psutil.cpu_count()
+
+
+def get_vir_total_memory():
+    return bytes2human(psutil.virtual_memory().total)
+
+
+def get_swap_total_memory():
+    return bytes2human(psutil.swap_memory().total)
 
 
 def get_boot_time():
@@ -23,10 +37,17 @@ def get_disk_usage():
     ]
 
 
+def _get_battery_info():
+    while True:
+        battery = psutil.sensors_battery()
+        battery_usage.append(
+            {
+                "percent": battery.percent,
+                "power_plugged": battery.power_plugged,
+            }
+        )
+        sleep(BATTERY_INTERVAL)
+
+
 def get_battery_info():
-    battery = psutil.sensors_battery()
-    return {
-        "percent": battery.percent,
-        "secsleft": battery.secsleft,
-        "power_plugged": battery.power_plugged,
-    }
+    return battery_usage

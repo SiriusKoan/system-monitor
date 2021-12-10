@@ -2,14 +2,11 @@ from time import sleep
 import psutil
 from psutil._common import bytes2human
 from monitor.config import MEMORY_INTERVAL
+from utils import add_timestamp
 
 
 # virtual memory
 vir_memory_usage = []
-
-
-def get_vir_total_memory():
-    return bytes2human(psutil.virtual_memory().total)
 
 
 def _get_vir_memory_usage():
@@ -28,16 +25,13 @@ def _get_vir_memory_usage():
 def get_vir_memory_usage():
     return vir_memory_usage
 
+
 def get_vir_memory_usage_percent():
-    return psutil.virtual_memory().percent
+    return [usage["percent"] for usage in vir_memory_usage]
 
 
 # swap memory
 swap_memory_usage = []
-
-
-def get_swap_total_memory():
-    return bytes2human(psutil.swap_memory().total)
 
 
 def _get_swap_memory_usage():
@@ -56,5 +50,6 @@ def _get_swap_memory_usage():
 def get_swap_memory_usage():
     return swap_memory_usage
 
+
 def get_swap_memory_usage_percent():
-    return psutil.swap_memory().percent
+    return [usage["percent"] for usage in swap_memory_usage]

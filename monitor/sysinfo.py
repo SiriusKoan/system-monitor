@@ -2,7 +2,6 @@ from time import sleep
 import psutil
 from psutil._common import bytes2human
 from monitor.config import BATTERY_INTERVAL
-from utils import add_timestamp
 
 battery_usage = []
 
@@ -35,6 +34,10 @@ def get_disk_usage():
         }
         for disk in disks
     ]
+
+
+def get_disks_partitions():
+    return [disk.device for disk in psutil.disk_partitions()]
 
 
 def _get_battery_info():

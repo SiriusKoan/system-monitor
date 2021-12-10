@@ -2,7 +2,6 @@ from time import sleep
 import psutil
 from psutil._common import bytes2human
 from monitor.config import MEMORY_INTERVAL
-from utils import add_timestamp
 
 
 # virtual memory

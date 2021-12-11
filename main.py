@@ -39,3 +39,5 @@ while True:
         print(timestamps)
     elif command == "exit":
         break
+    else:
+        print("Command not found")

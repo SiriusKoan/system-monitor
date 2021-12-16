@@ -13,5 +13,5 @@ def _get_cpu_usage():
         sleep(CPU_INTERVAL)
 
 
-def get_cpu_usage(percpu=False):
-    return cpu_usage_per if percpu else cpu_usage_total
+def get_cpu_usage(per=False):
+    return cpu_usage_per if per else cpu_usage_total

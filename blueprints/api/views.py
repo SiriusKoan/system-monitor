@@ -30,10 +30,12 @@ def memory_usage_api():
 @api_bp.route("/api/disk_io")
 def disk_io_api():
     data = diskio.get_disk_io_speed()
+    data_per = diskio.get_disk_io_speed(per=True)
+    print(data_per)
     response = jsonify(
         {
             "disk_io_speed_total": {"read": data[0], "write": data[1]},
-            # "disk_io_speed_per": diskio.get_disk_io_speed(per=True),
+            "disk_io_speed_per": {"read": data_per[0], "write": data_per[1]},
         }
     )
     return response
@@ -42,10 +44,11 @@ def disk_io_api():
 @api_bp.route("/api/network_io")
 def network_io_api():
     data = networkio.get_network_io_speed()
+    data_per = networkio.get_network_io_speed(per=True)
     response = jsonify(
         {
             "network_io_speed_total": {"input": data[0], "output": data[1]},
-            # "network_io_speed_per": networkio.get_network_io_speed(per=True),
+            "network_io_speed_per": {"input": data_per[0], "output": data_per[1]},
         }
     )
     return response

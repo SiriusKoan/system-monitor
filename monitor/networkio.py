@@ -38,15 +38,34 @@ def _get_network_io_speed():
         sleep(NETWORK_INTERVAL)
 
 
-def get_network_io_speed():
-    input = [network_input_speed_total[1]]
-    input += [
+def get_network_io_speed(per=False):
+    input_total = [network_input_speed_total[1]]
+    input_total += [
         network_input_speed_total[index] - network_input_speed_total[index - 1]
         for index in range(2, len(network_input_speed_total))
     ]
-    output = [network_output_speed_total[1]]
-    output += [
+    output_total = [network_output_speed_total[1]]
+    output_total += [
         network_output_speed_total[index] - network_output_speed_total[index - 1]
         for index in range(2, len(network_output_speed_total))
     ]
-    return input, output
+    input_per = {
+        interface: [network_input_speed_per[interface][1]] for interface in interfaces
+    }
+    output_per = {
+        interface: [network_output_speed_per[interface][1]] for interface in interfaces
+    }
+    for interface in interfaces:
+        input_per[interface] += [
+            network_input_speed_per[interface][index]
+            - network_input_speed_per[interface][index - 1]
+            for index in range(2, len(network_input_speed_per[interface]))
+        ]
+        output_per[interface] += [
+            network_output_speed_per[interface][index]
+            - network_output_speed_per[interface][index - 1]
+            for index in range(2, len(network_output_speed_per[interface]))
+        ]
+    if per:
+        return input_per, output_per
+    return input_total, output_total

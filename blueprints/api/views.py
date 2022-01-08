@@ -31,7 +31,6 @@ def memory_usage_api():
 def disk_io_api():
     data = diskio.get_disk_io_speed()
     data_per = diskio.get_disk_io_speed(per=True)
-    print(data_per)
     response = jsonify(
         {
             "disk_io_speed_total": {"read": data[0], "write": data[1]},

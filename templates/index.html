@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/index.css">
     <title>System Monitoring</title>
 </head>
 <body>
@@ -12,10 +13,19 @@
         <div id="cpu_usage">
             <canvas id="cpu_usage_canvas"></canvas>
         </div>
-        <div id="memory_usage"></div>
-        <div id="disk_io"></div>
-        <div id="network_io"></div>
-        <div id="sysinfo"></div>
+        <div id="memory_usage">
+            <canvas id="vir_memory_usage_canvas"></canvas>
+            <!-- <canvas id="swap_memory_usage_percent"></canvas> -->
+        </div>
+        <div id="disk_io">
+            <canvas id="disk_io_speed_canvas"></canvas>
+        </div>
+        <div id="network_io">
+            <canvas id="network_io_speed_canvas"></canvas>
+        </div>
+        <div id="sysinfo">
+            <canvas id="battery_usage_canvas"></canvas>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

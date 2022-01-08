@@ -1,5 +1,5 @@
 from flask import jsonify
-from monitor import cpu, diskio, memory, networkio, sysinfo
+from monitor import cpu, diskio, memory, networkio, sysinfo, utils
 from . import api_bp
 
 
@@ -65,6 +65,16 @@ def sysinfo_api():
             "boot_time": sysinfo.get_boot_time(),
             "disk_usage": sysinfo.get_disk_usage(),
             "disks_partitions": sysinfo.get_disks_partitions(),
+        }
+    )
+    return response
+
+
+@api_bp.route("/api/timestamp")
+def timestamp_api():
+    response = jsonify(
+        {
+            "timestamp": utils.get_timestamp(),
         }
     )
     return response

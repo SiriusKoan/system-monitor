@@ -11,6 +11,7 @@ def cpu_usage_api():
             "cpu_usage_per": cpu.get_cpu_usage(per=True),
         }
     )
+    cpu.clear_cpu()
     return response
 
 
@@ -24,6 +25,7 @@ def memory_usage_api():
             "swap_memory_usage_percent": memory.get_swap_memory_usage_percent(),
         }
     )
+    memory.clear_memory()
     return response
 
 
@@ -37,6 +39,7 @@ def disk_io_api():
             "disk_io_speed_per": {"read": data_per[0], "write": data_per[1]},
         }
     )
+    diskio.clear_disk_io_speed()
     return response
 
 
@@ -50,6 +53,7 @@ def network_io_api():
             "network_io_speed_per": {"input": data_per[0], "output": data_per[1]},
         }
     )
+    networkio.clear_network_io_speed()
     return response
 
 
@@ -66,6 +70,7 @@ def sysinfo_api():
             "disks_partitions": sysinfo.get_disks_partitions(),
         }
     )
+    sysinfo.clear_battery()
     return response
 
 
@@ -76,4 +81,5 @@ def timestamp_api():
             "timestamp": utils.get_timestamp(),
         }
     )
+    utils.clear_timestamp()
     return response

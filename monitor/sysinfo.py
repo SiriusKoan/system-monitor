@@ -1,7 +1,7 @@
 from time import sleep
 import psutil
 from psutil._common import bytes2human
-from monitor.config import BATTERY_INTERVAL
+from monitor.config import TIME_INTERVAL
 
 battery_usage = []
 
@@ -49,8 +49,12 @@ def _get_battery_info():
                 "power_plugged": battery.power_plugged,
             }
         )
-        sleep(BATTERY_INTERVAL)
+        sleep(TIME_INTERVAL)
 
 
 def get_battery_info():
     return battery_usage
+
+
+def clear_battery():
+    battery_usage.clear()

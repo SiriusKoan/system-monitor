@@ -1,6 +1,6 @@
 from time import sleep
 import psutil
-from monitor.config import NETWORK_INTERVAL
+from monitor.config import TIME_INTERVAL
 
 network_input_speed_total = []
 network_output_speed_total = []
@@ -35,7 +35,7 @@ def _get_network_io_speed():
                 psutil.net_io_counters(pernic=True)[interface].bytes_sent
                 - network_output_speed_per[interface][0]
             )
-        sleep(NETWORK_INTERVAL)
+        sleep(TIME_INTERVAL)
 
 
 def get_network_io_speed(per=False):
@@ -69,3 +69,20 @@ def get_network_io_speed(per=False):
     if per:
         return input_per, output_per
     return input_total, output_total
+
+
+def clear_network_io_speed():
+    network_input_speed_total.clear()
+    network_output_speed_total.clear()
+    for interface in interfaces:
+        network_input_speed_per[interface].clear()
+        network_output_speed_per[interface].clear()
+    network_input_speed_total.append(psutil.net_io_counters().bytes_recv)
+    network_output_speed_total.append(psutil.net_io_counters().bytes_sent)
+    for interface in interfaces:
+        network_input_speed_per[interface].append(
+            psutil.net_io_counters(pernic=True)[interface].bytes_recv
+        )
+        network_output_speed_per[interface].append(
+            psutil.net_io_counters(pernic=True)[interface].bytes_sent
+        )

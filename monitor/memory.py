@@ -1,7 +1,7 @@
 from time import sleep
 import psutil
 from psutil._common import bytes2human
-from monitor.config import MEMORY_INTERVAL
+from monitor.config import TIME_INTERVAL
 
 
 # virtual memory
@@ -18,7 +18,7 @@ def _get_vir_memory_usage():
                 "percent": mem.percent,
             }
         )
-        sleep(MEMORY_INTERVAL)
+        sleep(TIME_INTERVAL)
 
 
 def get_vir_memory_usage():
@@ -43,7 +43,7 @@ def _get_swap_memory_usage():
                 "percent": mem.percent,
             }
         )
-        sleep(MEMORY_INTERVAL)
+        sleep(TIME_INTERVAL)
 
 
 def get_swap_memory_usage():
@@ -52,3 +52,8 @@ def get_swap_memory_usage():
 
 def get_swap_memory_usage_percent():
     return [usage["percent"] for usage in swap_memory_usage]
+
+
+def clear_memory():
+    vir_memory_usage.clear()
+    swap_memory_usage.clear()

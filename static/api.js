@@ -1,5 +1,6 @@
 const HOST = "127.0.0.1:5000";
 const TIMEZONE = 8;
+const TIME_INTERVAL = 5000;
 const color_table = [
     'rgba(255, 99, 132, 0.8)',
     'rgba(54, 162, 235, 0.8)',
@@ -71,18 +72,19 @@ function getTimestamp() {
         url: `http://${HOST}/api/timestamp`,
         type: "GET",
         dataType: "json",
-    }).always(function (r) {
-        cpu_usage_chart.data.labels = r.timestamp.map(function (time) { return timestampToDate(time) });
-        vir_memory_usage_chart.data.labels = r.timestamp.map(function (time) { return timestampToDate(time) });
-        disk_io_speed_chart.data.labels = r.timestamp.map(function (time) { return timestampToDate(time) });
-        network_io_speed_chart.data.labels = r.timestamp.map(function (time) { return timestampToDate(time) });
-        battery_usage_chart.data.labels = r.timestamp.map(function (time) { return timestampToDate(time) });
+    }).always(function(r) {
+        timestamps = r.timestamp.map(function(time) { return timestampToDate(time) });
+        cpu_usage_chart.data.labels = cpu_usage_chart.data.labels.concat(timestamps);
+        vir_memory_usage_chart.data.labels = vir_memory_usage_chart.data.labels.concat(timestamps);
+        disk_io_speed_chart.data.labels = disk_io_speed_chart.data.labels.concat(timestamps);
+        network_io_speed_chart.data.labels = network_io_speed_chart.data.labels.concat(timestamps);
+        battery_usage_chart.data.labels = battery_usage_chart.data.labels.concat(timestamps);
         cpu_usage_chart.update();
         vir_memory_usage_chart.update();
         disk_io_speed_chart.update();
         network_io_speed_chart.update();
         battery_usage_chart.update();
-        setTimeout(getTimestamp, 1000);
+        setTimeout(getTimestamp, TIME_INTERVAL);
     });
 }
 
@@ -91,10 +93,10 @@ function getCPUUsage() {
         url: `http://${HOST}/api/cpu_usage`,
         type: "GET",
         dataType: "json",
-    }).always(function (r) {
-        cpu_usage_chart.data.datasets[0].data = r.cpu_usage_total;
+    }).always(function(r) {
+        cpu_usage_chart.data.datasets[0].data = cpu_usage_chart.data.datasets[0].data.concat(r.cpu_usage_total);
         cpu_usage_chart.update();
-        setTimeout(getCPUUsage, 1000);
+        setTimeout(getCPUUsage, TIME_INTERVAL);
     });
 }
 
@@ -103,10 +105,10 @@ function getMemoryUsage() {
         url: `http://${HOST}/api/memory_usage`,
         type: "GET",
         dataType: "json",
-    }).always(function (r) {
-        vir_memory_usage_chart.data.datasets[0].data = r.vir_memory_usage_percent;
+    }).always(function(r) {
+        vir_memory_usage_chart.data.datasets[0].data = vir_memory_usage_chart.data.datasets[0].data.concat(r.vir_memory_usage_percent);
         vir_memory_usage_chart.update();
-        setTimeout(getMemoryUsage, 1000);
+        setTimeout(getMemoryUsage, TIME_INTERVAL);
     });
 }
 
@@ -115,11 +117,11 @@ function getDiskIOSpeed() {
         url: `http://${HOST}/api/disk_io`,
         type: "GET",
         dataType: "json",
-    }).always(function (r) {
-        disk_io_speed_chart.data.datasets[0].data = r.disk_io_speed_total.read;
-        disk_io_speed_chart.data.datasets[1].data = r.disk_io_speed_total.write;
+    }).always(function(r) {
+        disk_io_speed_chart.data.datasets[0].data = disk_io_speed_chart.data.datasets[0].data.concat(r.disk_io_speed_total.read);
+        disk_io_speed_chart.data.datasets[1].data = disk_io_speed_chart.data.datasets[1].data.concat(r.disk_io_speed_total.write);
         disk_io_speed_chart.update();
-        setTimeout(getDiskIOSpeed, 1000);
+        setTimeout(getDiskIOSpeed, TIME_INTERVAL);
     });
 }
 
@@ -128,11 +130,11 @@ function getNetworkSpeed() {
         url: `http://${HOST}/api/network_io`,
         type: "GET",
         dataType: "json",
-    }).always(function (r) {
-        network_io_speed_chart.data.datasets[0].data = r.network_io_speed_total.input;
-        network_io_speed_chart.data.datasets[1].data = r.network_io_speed_total.output;
+    }).always(function(r) {
+        network_io_speed_chart.data.datasets[0].data = network_io_speed_chart.data.datasets[0].data.concat(r.network_io_speed_total.input);
+        network_io_speed_chart.data.datasets[1].data = network_io_speed_chart.data.datasets[1].data.concat(r.network_io_speed_total.output);
         network_io_speed_chart.update();
-        setTimeout(getNetworkSpeed, 1000);
+        setTimeout(getNetworkSpeed, TIME_INTERVAL);
     });
 }
 
@@ -141,11 +143,11 @@ function getBatteryUsage() {
         url: `http://${HOST}/api/sysinfo`,
         type: "GET",
         dataType: "json",
-    }).always(function (r) {
-        data = r.battery_info.map(function (info) { return info.percent });
-        battery_usage_chart.data.datasets[0].data = data;
+    }).always(function(r) {
+        data = r.battery_info.map(function(info) { return info.percent });
+        battery_usage_chart.data.datasets[0].data = battery_usage_chart.data.datasets[0].data.concat(data);
         battery_usage_chart.update();
-        setTimeout(getBatteryUsage, 1000);
+        setTimeout(getBatteryUsage, TIME_INTERVAL);
     });
 }
 

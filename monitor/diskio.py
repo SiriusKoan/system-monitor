@@ -1,6 +1,6 @@
 from time import sleep
 import psutil
-from monitor.config import DISK_INTERVAL
+from monitor.config import TIME_INTERVAL
 
 disk_read_speed_total = []
 disk_write_speed_total = []
@@ -35,7 +35,7 @@ def _get_disk_io_speed():
                 psutil.disk_io_counters(perdisk=True)[device].write_bytes
                 - disk_write_speed_per[device][0]
             )
-        sleep(DISK_INTERVAL)
+        sleep(TIME_INTERVAL)
 
 
 def get_disk_io_speed(per=False):
@@ -64,3 +64,19 @@ def get_disk_io_speed(per=False):
     if per:
         return read_per, write_per
     return read, write
+
+def clear_disk_io_speed():
+    disk_read_speed_total.clear()
+    disk_write_speed_total.clear()
+    for device in devices:
+        disk_read_speed_per[device].clear()
+        disk_write_speed_per[device].clear()
+    disk_read_speed_total.append(psutil.disk_io_counters().read_bytes)
+    disk_write_speed_total.append(psutil.disk_io_counters().write_bytes)
+    for device in devices:
+        disk_read_speed_per[device].append(
+            psutil.disk_io_counters(perdisk=True)[device].read_bytes
+        )
+        disk_write_speed_per[device].append(
+            psutil.disk_io_counters(perdisk=True)[device].write_bytes
+        )

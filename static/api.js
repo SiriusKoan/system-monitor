@@ -1,6 +1,7 @@
 const HOST = "127.0.0.1:5000";
 const TIMEZONE = 8;
 const TIME_INTERVAL = 5000;
+const MAX_DATA_LENGTH = 500;
 const color_table = [
     'rgba(255, 99, 132, 0.8)',
     'rgba(54, 162, 235, 0.8)',
@@ -151,9 +152,34 @@ function getBatteryUsage() {
     });
 }
 
+function shiftData() {
+    console.log(cpu_usage_chart.data.labels.length)
+    if (cpu_usage_chart.data.labels.length > MAX_DATA_LENGTH) {
+        cpu_usage_chart.data.datasets[0].data.shift();
+        cpu_usage_chart.data.labels.shift();
+        vir_memory_usage_chart.data.datasets[0].data.shift();
+        vir_memory_usage_chart.data.labels.shift();
+        disk_io_speed_chart.data.datasets[0].data.shift();
+        disk_io_speed_chart.data.datasets[1].data.shift();
+        disk_io_speed_chart.data.labels.shift();
+        network_io_speed_chart.data.datasets[0].data.shift();
+        network_io_speed_chart.data.datasets[1].data.shift();
+        network_io_speed_chart.data.labels.shift();
+        battery_usage_chart.data.datasets[0].data.shift();
+        battery_usage_chart.data.labels.shift();
+        cpu_usage_chart.update();
+        vir_memory_usage_chart.update();
+        disk_io_speed_chart.update();
+        network_io_speed_chart.update();
+        battery_usage_chart.update();
+    }
+    setTimeout(shiftData, 1000);
+}
+
 getTimestamp();
 getCPUUsage();
 getMemoryUsage();
 getDiskIOSpeed();
 getNetworkSpeed();
 getBatteryUsage();
+shiftData();

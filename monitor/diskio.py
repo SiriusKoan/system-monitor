@@ -66,17 +66,16 @@ def get_disk_io_speed(per=False):
     return read, write
 
 def clear_disk_io_speed():
+    read_total_tmp = disk_read_speed_total[-1]
+    write_total_tmp = disk_write_speed_total[-1]
     disk_read_speed_total.clear()
     disk_write_speed_total.clear()
+    disk_read_speed_total.append(read_total_tmp)
+    disk_write_speed_total.append(write_total_tmp)
     for device in devices:
+        read_per_tmp = disk_read_speed_per[device][-1]
+        write_per_tmp = disk_write_speed_per[device][-1]
         disk_read_speed_per[device].clear()
         disk_write_speed_per[device].clear()
-    disk_read_speed_total.append(psutil.disk_io_counters().read_bytes)
-    disk_write_speed_total.append(psutil.disk_io_counters().write_bytes)
-    for device in devices:
-        disk_read_speed_per[device].append(
-            psutil.disk_io_counters(perdisk=True)[device].read_bytes
-        )
-        disk_write_speed_per[device].append(
-            psutil.disk_io_counters(perdisk=True)[device].write_bytes
-        )
+        disk_read_speed_per[device].append(read_per_tmp)
+        disk_write_speed_per[device].append(write_per_tmp)

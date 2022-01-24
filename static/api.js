@@ -153,7 +153,6 @@ function getBatteryUsage() {
 }
 
 function shiftData() {
-    console.log(cpu_usage_chart.data.labels.length)
     if (cpu_usage_chart.data.labels.length > MAX_DATA_LENGTH) {
         cpu_usage_chart.data.datasets[0].data.shift();
         cpu_usage_chart.data.labels.shift();

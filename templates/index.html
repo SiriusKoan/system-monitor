@@ -5,11 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
     <title>System Monitoring</title>
 </head>
 <body>
     <h1>System Monitoring</h1>
-    <div>
+    <div id="labels">
+        <span id="cpu_usage_label" onclick="show('cpu_usage');">CPU Usage</span>
+        <span id="memory_usage_label" onclick="show('memory_usage');">Memory Usage</span>
+        <span id="disk_io_label" onclick="show('disk_io');">Disk IO Speed</span>
+        <span id="network_io_label" onclick="show('network_io');">Network IO Speed</span>
+        <span id="sysinfo_label" onclick="show('sysinfo');">System Info</span>
+    </div>
+    <div id="canvas">
         <div id="cpu_usage">
             <canvas id="cpu_usage_canvas"></canvas>
         </div>
@@ -30,5 +40,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/static/api.js"></script>
+    <script src="/static/layout.js"></script>
 </body>
 </html>
